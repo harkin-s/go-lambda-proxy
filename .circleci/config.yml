@@ -33,9 +33,7 @@ jobs:
       - checkout
       - run: go mod download
       - run: CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o app src/*.go
-      - setup_remote_docker:
-            docker_layer_caching: true
-      - run: docker build -t $AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME:$IMAGE:$CIRCLE_JOB .
+      - run: docker build -t image .
       - run: mkdir -p workspace
       - run: cp $IMAGE:$CIRCLE_JOB workspace/
       - run: ls workspace/
