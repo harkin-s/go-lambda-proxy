@@ -1,5 +1,4 @@
 FROM alpine:3.7
-RUN ls
-COPY app .
+COPY workspace/app .
 EXPOSE 8000
 CMD [ "./app" ]
