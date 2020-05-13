@@ -7,13 +7,13 @@ workflows:
         jobs:
             - build-source
             - aws-ecr/build-and-push-image:
-                account-url: $AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME
-                aws-access-key-id: $AWS_ACCESS_KEY_ID
-                aws-secret-access-key: $AWS_ACCESS_KEY_ID
+                account-url: AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME
+                aws-access-key-id: AWS_ACCESS_KEY_ID
+                aws-secret-access-key: AWS_ACCESS_KEY_ID
                 context: AWS_CREDS
                 create-repo: true
                 dockerfile: Dockerfile
-                region: eu-west-1
+                region: AWS_DEFAULT_REGION
                 repo: go-lambda-proxy
                 tag: '${IMAGE}:$CIRCLE_SHA1'
                 requires:
