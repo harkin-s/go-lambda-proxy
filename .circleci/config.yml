@@ -9,9 +9,7 @@ jobs:
       - run:
           name: download-libraries
           command: go mod download
-    #   - run: dep ensure -v -vendor-only
-    #   - run: go build ./...
-    #   - run: CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o app src/main/*.go
+      - run: CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o app src/*.go
     #   - setup_remote_docker:
     #       docker_layer_caching: true
     #   - run: docker build -t ${IMAGE}:$CIRCLE_SHA1 .
