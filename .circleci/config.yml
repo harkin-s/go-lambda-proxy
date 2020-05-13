@@ -13,9 +13,11 @@ workflows:
                 context: AWS_CREDS
                 create-repo: true
                 dockerfile: Dockerfile
+                attach-workspace: true
                 region: AWS_DEFAULT_REGION
                 repo: go-lambda-proxy
                 tag: CIRCLE_JOB
+                workspace-root: workspace
                 requires:
                     - build-source
             
