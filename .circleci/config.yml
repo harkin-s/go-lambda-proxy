@@ -15,7 +15,7 @@ workflows:
                 dockerfile: Dockerfile
                 region: AWS_DEFAULT_REGION
                 repo: go-lambda-proxy
-                tag: '${IMAGE}:$CIRCLE_SHA1'
+                tag: '${IMAGE}:$CIRCLE_JOB'
                 requires:
                     - build-source
             
