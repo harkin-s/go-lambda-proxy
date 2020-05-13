@@ -47,7 +47,7 @@ jobs:
         - checkout
         - setup_remote_docker
         - attach_workspace:
-            at: /workspace
+            at: workspace
         - run: ls workspace
         - run: docker build -t $AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME/go-lambda-proxy:$CIRCLE_JOB .
 
