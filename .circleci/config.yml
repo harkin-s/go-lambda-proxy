@@ -7,6 +7,7 @@ workflows:
         jobs:
             - compile
             - build-and-push:
+                context: AWS_CREDS
                 requires:
                     - compile
             # - aws-ecr/build-and-push-image:
