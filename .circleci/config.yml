@@ -10,6 +10,7 @@ jobs:
           name: download-libraries
           command: go mod download
       - run: CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o app src/*.go
+      - run: ls
     #   - setup_remote_docker:
     #       docker_layer_caching: true
     #   - run: docker build -t ${IMAGE}:$CIRCLE_SHA1 .
