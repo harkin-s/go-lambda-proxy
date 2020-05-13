@@ -1,6 +1,10 @@
-version: 2
+version: 2.1
+orbs:
+    aws-ecr: circleci/aws-ecr@6.5.0
+    aws-ecs: circleci/aws-ecs@0.0.10
+
 jobs:
-  build:
+  build-source:
     docker: 
       - image: circleci/golang:1.14
     working_directory: /go/src/github.com/sharkin104/go-lambda-proxy
@@ -11,9 +15,9 @@ jobs:
           command: go mod download
       - run: CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o app src/*.go
       - run: ls
-    #   - setup_remote_docker:
-    #       docker_layer_caching: true
-    #   - run: docker build -t ${IMAGE}:$CIRCLE_SHA1 .
-    #   - run: echo ${GOOGLE_AUTH} > gcp-key.json
-    #   - run: cat "gcp-key.json" | docker login -u _json_key --password-stdin https://eu.gcr.io
-    #   - run: docker push ${IMAGE}:$CIRCLE_SHA1
+  build-image:
+    - aws-ecr/build-and-push-image:
+        account-url: AWS_ECR_ACCOUNT_URL
+        repo: '${MY_APP_PREFIX}'
+        region: AWS_REGION
+        tag: '${CIRCLE_SHA1}'
