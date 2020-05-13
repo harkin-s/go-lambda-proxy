@@ -3,6 +3,7 @@ jobs:
   build:
     docker: 
       - image: circleci/golang:1.14
+    working_directory: /go/src/github.com/sharkin104/go-lambda-proxy
     steps:
       - checkout
       - run:
