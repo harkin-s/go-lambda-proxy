@@ -5,10 +5,10 @@ orbs:
 workflows:
     compile-and-push:
         jobs:
-            - build-source
+            - build-docker
             - push-ecr
                 requires:
-                    - build-source
+                    - build-docker
             # - aws-ecr/build-and-push-image:
             #     account-url: AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME
             #     aws-access-key-id: AWS_ACCESS_KEY_ID
