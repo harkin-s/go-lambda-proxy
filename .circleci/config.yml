@@ -1,25 +1,26 @@
 version: 2.1
 orbs:
-    aws-ecr: circleci/aws-ecr@6.8.2
+    aws-cli: circleci/aws-cli@1.0.0
 
 workflows:
     compile-and-push:
         jobs:
             - build-source
-            - aws-ecr/build-and-push-image:
-                account-url: AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME
-                aws-access-key-id: AWS_ACCESS_KEY_ID
-                aws-secret-access-key: AWS_SECRET_ACCESS_KEY
-                context: AWS_CREDS
-                create-repo: true
-                dockerfile: Dockerfile
-                attach-workspace: true
-                region: AWS_DEFAULT_REGION
-                repo: go-lambda-proxy
-                tag: CIRCLE_JOB
-                workspace-root: workspace
-                requires:
-                    - build-source
+            - push-ecr
+            # - aws-ecr/build-and-push-image:
+            #     account-url: AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME
+            #     aws-access-key-id: AWS_ACCESS_KEY_ID
+            #     aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+            #     context: AWS_CREDS
+            #     create-repo: true
+            #     dockerfile: Dockerfile
+            #     attach-workspace: true
+            #     region: AWS_DEFAULT_REGION
+            #     repo: go-lambda-proxy
+            #     tag: CIRCLE_JOB
+            #     workspace-root: workspace
+            #     requires:
+            #         - build-source
             
 
 jobs:
@@ -37,4 +38,11 @@ jobs:
             root: workspace
             paths: 
                 - app
+  
+  push-ecr:
+    executor: aws-cli/default
+    steps:
+        - checkout
+        - attach_workspace:
+            at: /tmp/workspace
 
