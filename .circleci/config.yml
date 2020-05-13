@@ -1,3 +1,4 @@
+
 orbs:
     aws-ecr: circleci/aws-ecr@6.8.2
 
@@ -10,16 +11,9 @@ jobs:
       - run: go mod download
       - run: CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o app src/*.go
       - run: ls
-   push:
-    requires:
-        - build-source
-    steps:
-    #   - aws-ecr/build-and-push-image:
-      
 
 workflows:
-  version: 2
+  version: 2.1
   build_and_test:
     jobs:
       - build-source
-      - push
