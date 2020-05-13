@@ -53,7 +53,7 @@ jobs:
         - run: ls
         - run: docker build -t $AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME/go-lambda-proxy:$CIRCLE_BUILD_NUM .
         - run: pip3 install awscli 
-        - run: aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION --profile default
+        - run: aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION
         - run: docker push $AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME/go-lambda-proxy:$CIRCLE_BUILD_NUM
 
 
