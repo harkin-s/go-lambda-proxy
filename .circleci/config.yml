@@ -24,7 +24,6 @@ jobs:
   build-source:
     docker:
         - image: circleci/golang:1.14
-    working_directory: /tmp
     steps:
       - checkout
       - run: go mod download
