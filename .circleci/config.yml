@@ -1,23 +1,16 @@
 version: 2.1
 orbs:
-    aws-ecr: circleci/aws-ecr@6.5.0
-    aws-ecs: circleci/aws-ecs@0.0.10
-
-jobs:
-  build-source:
-    docker: 
-      - image: circleci/golang:1.14
-    working_directory: /go/src/github.com/sharkin104/go-lambda-proxy
-    steps:
-      - checkout
-      - run:
-          name: download-libraries
-          command: go mod download
-      - run: CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o app src/*.go
-      - run: ls
-  build-image:
-    - aws-ecr/build-and-push-image:
-        account-url: AWS_ECR_ACCOUNT_URL
-        repo: '${MY_APP_PREFIX}'
-        region: AWS_REGION
-        tag: '${CIRCLE_SHA1}'
+    aws-ecr: circleci/aws-ecr@6.8.2
+workflows:
+    build-source:
+        jobs:
+        docker: 
+         - image: circleci/golang:1.14
+        working_directory: /go/src/github.com/sharkin104/go-lambda-proxy
+        steps:
+            - checkout
+            - run:
+                name: download-libraries
+                command: go mod download
+            - run: CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o app src/*.go
+            - run: ls
