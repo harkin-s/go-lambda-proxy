@@ -24,11 +24,13 @@ jobs:
   build-source:
     docker:
         - image: circleci/golang:1.14
+    working_directory: /tmp
     steps:
       - checkout
       - run: go mod download
       - run: CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o app src/*.go
       - run: ls
-      - store_artifacts:
-            path: app
+      - persist_to_workspace:
+            paths: 
+                - app
 
