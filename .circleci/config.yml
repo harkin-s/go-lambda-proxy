@@ -1,6 +1,26 @@
-
+version: 2.1
 orbs:
     aws-ecr: circleci/aws-ecr@6.8.2
+
+workflows:
+    compile-and-push:
+        jobs:
+            - build-source
+            - aws-ecr/build-and-push-image:
+                account-url: AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME
+                aws-access-key-id: ACCESS_KEY_ID_ENV_VAR_NAME
+                aws-secret-access-key: SECRET_ACCESS_KEY_ENV_VAR_NAME
+                context: myContext
+                create-repo: true
+                dockerfile: myDockerfile
+                path: pathToMyDockerfile
+                profile-name: myProfileName
+                region: AWS_REGION_ENV_VAR_NAME
+                repo: myECRRepository
+                tag: 'latest,myECRRepoTag'
+                requires:
+                    - build-source
+            
 
 jobs:
   build-source:
@@ -12,8 +32,3 @@ jobs:
       - run: CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o app src/*.go
       - run: ls
 
-workflows:
-  version: 2.1
-  build_and_test:
-    jobs:
-      - build-source
