@@ -6,7 +6,7 @@ workflows:
     compile-and-push:
         jobs:
             - build-docker
-            - push-ecr
+            - push-ecr:
                 requires:
                     - build-docker
             # - aws-ecr/build-and-push-image:
