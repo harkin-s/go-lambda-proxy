@@ -5,10 +5,10 @@ orbs:
 workflows:
     compile-and-push:
         jobs:
-            - build-docker
-            - push-ecr:
+            - compile
+            - build-and-push:
                 requires:
-                    - build-docker
+                    - compile
             # - aws-ecr/build-and-push-image:
             #     account-url: AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME
             #     aws-access-key-id: AWS_ACCESS_KEY_ID
@@ -26,28 +26,29 @@ workflows:
             
 
 jobs:
-  build-docker:
+  compile:
     docker:
         - image: circleci/golang:1.14
     steps:
       - checkout
       - run: go mod download
       - run: CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o app src/*.go
-      - setup_remote_docker
-      - run: docker build -t $AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME/go-lambda-proxy:$CIRCLE_JOB .
       - run: mkdir -p workspace
-      - run: cp $AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME/go-lambda-proxy:$CIRCLE_JOB workspace/
+      - run: cp app workspace/
       - run: ls workspace/
       - persist_to_workspace:
             root: workspace
             paths: 
                 - app
   
-  push-ecr:
+  build-and-push:
     executor: aws-cli/default
     steps:
         - checkout
+        - setup_remote_docker
         - attach_workspace:
             at: /workspace
         - run: ls workspace
+        - run: docker build -t $AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME/go-lambda-proxy:$CIRCLE_JOB .
+
 
