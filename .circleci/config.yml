@@ -10,22 +10,6 @@ workflows:
                 context: AWS_CREDS
                 requires:
                     - compile
-            # - aws-ecr/build-and-push-image:
-            #     account-url: AWS_ECR_ACCOUNT_URL_ENV_VAR_NAME
-            #     aws-access-key-id: AWS_ACCESS_KEY_ID
-            #     aws-secret-access-key: AWS_SECRET_ACCESS_KEY
-            #     context: AWS_CREDS
-            #     create-repo: true
-            #     dockerfile: Dockerfile
-            #     attach-workspace: true
-            #     region: AWS_DEFAULT_REGION
-            #     repo: go-lambda-proxy
-            #     tag: CIRCLE_JOB
-            #     workspace-root: workspace
-            #     requires:
-            #         - build-source
-            
-
 jobs:
   compile:
     docker:
